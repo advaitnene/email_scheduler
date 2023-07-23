@@ -4,15 +4,28 @@ import {data} from "../data/data.js";
 import '../css/HomePage.css';
 
 const Home = () => {
+    //State to store the quotes.
     const [quotes, setQuotes] = useState(data.quotes)
+
+    //Harcoded set of users to test the functionality.
     const [users, setUsers] = useState(["advaitnene@gmail.com", "devu@gmail.com", "rigved@123.com", "shreya@rediff.com", "yash@gmail.com", "TJ@gmail.com", "ravi@yahoo.com"])
+    
+    //State that will calculate the remaining time before the next quote appears on screen.
     const [timer, setTimer] = useState(60)
+
+    //This will contain objects containing the user email, the set of remaining msgs and the selected message to be displayed on screen.
     const [userQuoteDict, setUserQuoteDict] = useState([])
+
+    //State to display the timer on screen.
     const [displayTime, setDisplayTime] = useState("")
 
+    /* On initial page load, quoteArr will have 10 values corresponding to the 10 quotes.
+    For each user, a random number gets generated. That element is popped from the array.
+    This random element will be stored in the selectedElement field which is used in the render function.
+    */
     useEffect(() => {
         let quoteArr = []
-        for (let i = 0; i <= 10; i++) {
+        for (let i = 0; i < 10; i++) {
             quoteArr.push(i)
         }
         var userQuoteArr = [] 
@@ -26,15 +39,19 @@ const Home = () => {
         setUserQuoteDict(userQuoteArr)
     },[])
 
+    // This function gets called when the user clicks on Start button.
     const startQuotes = () => {
-        console.log("Use Effect ", userQuoteDict)
+        //console.log("Use Effect ", userQuoteDict)
         setInterval(startTimer, 1000)
     }
 
+    // This function gets called every second. 
+    // Essentially, the things that happen on page load are the same things that happen in this function.
+    // The array associated with each user should decrement by 1 after every call. It gets reinitialized to 10 in this code.
     const startTimer = () => {
         setTimer((prevState) => {return prevState - 1})
 
-        console.log("User Quote Dict is ", userQuoteDict)
+        //console.log("User Quote Dict is ", userQuoteDict)
         var newQuoteArr = []
         userQuoteDict.map((element, index) => {
             var randomElement = Math.floor(Math.random() * (element.quoteArr.length- 1))
@@ -44,10 +61,11 @@ const Home = () => {
             });
             newQuoteArr.push({'user': element.user, 'quoteArr': newQuotesArr, 'selectedElement': quoteNumber})
         })
-        console.log("Updated Dict is ", newQuoteArr)
+        //console.log("Updated Dict is ", newQuoteArr)
         setUserQuoteDict(newQuoteArr)
     }
 
+    // On timer change, the remaining time gets recalculated to display on screen. Nothing else!
     useEffect(() => {
         let minutes = Math.floor(timer / 60);
         let seconds = timer % 60;
