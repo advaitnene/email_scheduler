@@ -1,15 +1,15 @@
+import React, {useState} from 'react'
 import HomePage from '../src/components/HomePage.js'
-import Login from '../src/components/Login.js'
-import SignUp from '../src/components/SignUp.js'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
 function App() {
+  //Initial hardcoded set of users.
+  const [users, setUsers] = useState(["shreya@rediff.com", "TJ@gmail.com", "Danny@yahoo.com"])
+    
   return (
     <Router>
       <Routes>
-       <Route path="/" element={<HomePage />} />
-       <Route path="/login" element={<Login />} />
-       <Route path="/signup" element={<SignUp />} />
+       <Route path="/" element={<HomePage users={users} setUsers={setUsers}/>} />
       </Routes>
     </Router>
   );

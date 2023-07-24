@@ -15,12 +15,13 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-color: #DDE6ED;
 }
 
 .textStyleHomePage {
-    font-size: 22px;
+    font-size: 18px;
     border-radius: 10px;
-    font-family: cursive;
+    font-family:'Courier New', Courier, monospace;
 }
 
 .startButton {
@@ -31,5 +32,23 @@
     border-radius: 10px;
     font-family: cursive;
     font-size: 16px;
-    border: none;
+}
+
+.disableButton {
+    pointer-events: none;
+    background-color: #cccccc;
+    color: #666666;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    font-family: cursive;
+    font-size: 16px;
+}
+
+.emptyMessage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
 }
