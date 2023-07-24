@@ -13,12 +13,10 @@ const Home = ({ users, setUsers }) => {
     //This will contain objects containing the user email, an array of remaining quotes and the selected message to be displayed on screen.
     const [userQuoteDict, setUserQuoteDict] = useState([])
 
-    /* On initial page load, quoteArr will have 10 values corresponding to the 10 quotes.
-    For each user, a random number gets generated. That element is popped from the array.
-    This random element will be stored in the selectedElement field which is used in the render function.
+    /* When the user count changes, quoteArr will have 10 values corresponding to the 10 quotes for every user.
+    One random value will get generated and the quote corresponding to that value will be displayed on the screen.
     */
     useEffect(() => {
-        //if (userQuoteDict.length === 0) {
             var userQuoteArr = [] 
             users.forEach((user, index) => {
                 var randomIndex = Math.floor(Math.random() * (quotes.length- 1))
@@ -28,16 +26,6 @@ const Home = ({ users, setUsers }) => {
                 userQuoteArr.push({'user': user, 'quoteArr': newQuotes, 'selectedElement': quoteNumber})
             })
             setUserQuoteDict([...userQuoteArr])
-        // } else {
-        //     var userQuoteArr = [] 
-        //     var randomIndex = Math.floor(Math.random() * (quotes.length- 1))
-        //     var quoteNumber = quotes[randomIndex]
-        //     var newQuotes = [...quotes]
-        //     newQuotes.splice(randomIndex, 1)
-        //     userQuoteArr.push({'user': users[users.length - 1], 'quoteArr': newQuotes, 'selectedElement': quoteNumber})
-        //     var newQuoteDict = [...userQuoteDict, userQuoteArr]
-        //     setUserQuoteDict([...newQuoteDict])
-        // }
     },[users])
 
     // This function gets called when the user clicks on Start button.
@@ -50,9 +38,8 @@ const Home = ({ users, setUsers }) => {
         setUserFlag(true)
     }
 
-    // This function gets called every second. 
-    // Essentially, the things that happen on page load are the same things that happen in this function.
-    // The array associated with each user should decrement by 1 after every call. It gets reinitialized to 10 in this code.
+    // This function gets called every 2 seconds. 
+    // On every call, one quote from the array gets popped from the array of quotes for each user and displayed on the screen.
     const startTimer = () => {
         var newQuoteArr = []
         userQuoteDict.forEach((element, index) => {
@@ -65,7 +52,6 @@ const Home = ({ users, setUsers }) => {
         setUserQuoteDict([...newQuoteArr])
     }
 
-    //console.log("User Quote ", userQuoteDict)
     return (
         <>
         <Nav/>
@@ -75,7 +61,7 @@ const Home = ({ users, setUsers }) => {
                     <button className='startButton' onClick={startQuotes}>Start</button>
                     <button className='startButton' style={{margin:'1rem'}} onClick={handleUserModal}>Add User</button>
                 </div>
-                <h3>Next quote will appear every three seconds!</h3>
+                <h3>Next quote will appear every two seconds!</h3>
                 {userFlag && <AddUser setUserFlag = {setUserFlag} users = {users}  setUsers = {setUsers} />}
             </div>
             
