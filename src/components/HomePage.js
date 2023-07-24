@@ -5,6 +5,7 @@ import {data} from "../data/data.js";
 import '../css/HomePage.css';
 
 const quotes = data;
+let myInterval;
 const Home = ({ users, setUsers }) => {
     //Flag to Display/Hide the Add User Modal.
     const [userFlag, setUserFlag] = useState(false)
@@ -17,7 +18,7 @@ const Home = ({ users, setUsers }) => {
     This random element will be stored in the selectedElement field which is used in the render function.
     */
     useEffect(() => {
-        if (userQuoteDict.length === 0) {
+        //if (userQuoteDict.length === 0) {
             var userQuoteArr = [] 
             users.forEach((user, index) => {
                 var randomIndex = Math.floor(Math.random() * (quotes.length- 1))
@@ -27,24 +28,25 @@ const Home = ({ users, setUsers }) => {
                 userQuoteArr.push({'user': user, 'quoteArr': newQuotes, 'selectedElement': quoteNumber})
             })
             setUserQuoteDict([...userQuoteArr])
-        } else {
-            var userQuoteArr = [] 
-            var randomIndex = Math.floor(Math.random() * (quotes.length- 1))
-            var quoteNumber = quotes[randomIndex]
-            var newQuotes = [...quotes]
-            newQuotes.splice(randomIndex, 1)
-            userQuoteArr.push({'user': users[users.length - 1], 'quoteArr': newQuotes, 'selectedElement': quoteNumber})
-            var newQuoteDict = [...userQuoteDict, userQuoteArr]
-            setUserQuoteDict([...newQuoteDict])
-        }
+        // } else {
+        //     var userQuoteArr = [] 
+        //     var randomIndex = Math.floor(Math.random() * (quotes.length- 1))
+        //     var quoteNumber = quotes[randomIndex]
+        //     var newQuotes = [...quotes]
+        //     newQuotes.splice(randomIndex, 1)
+        //     userQuoteArr.push({'user': users[users.length - 1], 'quoteArr': newQuotes, 'selectedElement': quoteNumber})
+        //     var newQuoteDict = [...userQuoteDict, userQuoteArr]
+        //     setUserQuoteDict([...newQuoteDict])
+        // }
     },[users])
 
     // This function gets called when the user clicks on Start button.
     const startQuotes = () => {
-        setInterval(startTimer, 2000)
+        myInterval = setInterval(startTimer, 2000)
     }
 
     const handleUserModal = () => {
+        clearInterval(myInterval)
         setUserFlag(true)
     }
 
@@ -52,21 +54,18 @@ const Home = ({ users, setUsers }) => {
     // Essentially, the things that happen on page load are the same things that happen in this function.
     // The array associated with each user should decrement by 1 after every call. It gets reinitialized to 10 in this code.
     const startTimer = () => {
-        if (userQuoteDict.length !== 0 && userQuoteDict[userQuoteDict.length - 1].quoteArr.length === 0) {
-            clearInterval(startTimer)
-        } else {
-            var newQuoteArr = []
-            userQuoteDict.forEach((element, index) => {
-                //debugger
-                var randomIndex = Math.floor(Math.random() * (element.quoteArr.length- 1))
-                var quoteNumber = element.quoteArr[randomIndex]
-                element.quoteArr.splice(randomIndex, 1)
-                newQuoteArr.push({'user': element.user, 'quoteArr': element.quoteArr, 'selectedElement': quoteNumber})
-            })
-            setUserQuoteDict([...newQuoteArr])
-        }
+        var newQuoteArr = []
+        userQuoteDict.forEach((element, index) => {
+            //debugger
+            var randomIndex = Math.floor(Math.random() * (element.quoteArr.length- 1))
+            var quoteNumber = element.quoteArr[randomIndex]
+            element.quoteArr.splice(randomIndex, 1)
+            newQuoteArr.push({'user': element.user, 'quoteArr': element.quoteArr, 'selectedElement': quoteNumber})
+        })
+        setUserQuoteDict([...newQuoteArr])
     }
 
+    //console.log("User Quote ", userQuoteDict)
     return (
         <>
         <Nav/>
